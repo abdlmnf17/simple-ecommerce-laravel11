@@ -17,8 +17,7 @@ return new class extends Migration
             $table->string('no_sales', 50);
             $table->string('payment_method', 50);
             $table->string('status')->default('unpaid');
-            $table->foreignId('product_id')->constrained('products')->onDelete('cascade');
-            $table->foreignId('customer_id')->constrained('customers')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

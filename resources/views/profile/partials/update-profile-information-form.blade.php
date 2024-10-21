@@ -24,6 +24,25 @@
         </div>
 
         <div>
+            <x-input-label for="date_of_birth" :value="__('Tempat Tanggal Lahir')" />
+            <x-text-input id="date_of_birth" name="date_of_birth" type="text" class="mt-1 block w-full" :value="old('date_of_birth', $user->date_of_birth)" required autocomplete="date_of_birth" />
+            <x-input-error class="mt-2" :messages="$errors->get('date_of_birth')" />
+        </div>
+
+        <div>
+            <x-input-label for="phone_number" :value="__('No HP')" />
+            <x-text-input id="phone_number" name="phone_number" type="tel" class="mt-1 block w-full" :value="old('phone_number', $user->phone_number)" required autocomplete="tel" />
+            <x-input-error class="mt-2" :messages="$errors->get('phone_number')" />
+        </div>
+
+        <div>
+            <x-input-label for="adress" :value="__('Alamat')" />
+            <x-text-input id="adress" name="adress" type="text" class="mt-1 block w-full" :value="old('adress', $user->adress)" required autocomplete="adress" />
+            <x-input-error class="mt-2" :messages="$errors->get('adress')" />
+        </div>
+
+
+        <div>
             <x-input-label for="email" :value="__('Email')" />
             <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email', $user->email)" required autocomplete="username" />
             <x-input-error class="mt-2" :messages="$errors->get('email')" />

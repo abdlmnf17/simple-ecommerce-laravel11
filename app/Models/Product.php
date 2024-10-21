@@ -18,4 +18,10 @@ class Product extends Model
         'photo_3',
         'photo_4',
     ];
+    public function sales()
+    {
+        return $this->belongsToMany(Sale::class, 'sale_product')
+            ->withPivot('quantity')
+            ->withTimestamps();
+    }
 }

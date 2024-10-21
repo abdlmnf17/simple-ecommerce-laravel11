@@ -1,4 +1,7 @@
 <title>Pengguna</title>
+
+
+@can('delete products')
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
@@ -8,13 +11,15 @@
 
     <div class="py-6 px-4 sm:px-6 lg:px-8">
         <div class="dark:bg-gray-900 overflow-hidden shadow-sm sm:rounded-lg">
-            @include('alert.alert-info')
+
 
             <div class="p-4 sm:p-6 dark:bg-gray-900 border-b border-gray-200">
                 <div class="flex flex-col sm:flex-row justify-between items-center space-y-2 sm:space-y-0 sm:space-x-4">
-                    <x-secondary-button href="{{ route('users.create') }}">
+
+                    {{-- <a href="{{ route('users.create') }}" class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md">
                         Tambah Pengguna
-                    </x-secondary-button>
+                    </a> --}}
+
 
                     <form action="{{ route('users.index') }}" method="GET"
                           class="flex flex-col sm:flex-row items-center mt-4 sm:mt-0 space-y-2 sm:space-y-0 sm:space-x-4">
@@ -118,3 +123,4 @@
         </div>
     </div>
 </x-app-layout>
+@endcan

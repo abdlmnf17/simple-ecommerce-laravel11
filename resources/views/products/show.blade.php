@@ -45,15 +45,14 @@
                                     <div class="swiper-wrapper">
                                         @foreach ([$product->photo, $product->photo_2, $product->photo_3, $product->photo_4] as $photo)
                                             @if ($photo)
-                                                <div class="swiper-slide">
-                                                    <img src="{{ Storage::url($photo) }}" alt="{{ $product->name }}" class="h-full w-full object-cover rounded-lg">
-                                                </div>
+                                            <div class="swiper-slide">
+                                                <img src="{{ Storage::url($photo) }}" alt="{{ $product->name }}" class="h-200 w-full object-cover rounded-lg">
+                                            </div>
                                             @endif
                                         @endforeach
                                     </div>
                                     <div class="swiper-button-next"></div>
                                     <div class="swiper-button-prev"></div>
-                                    <div class="swiper-pagination"></div>
                                 </div>
                             </div>
                         </div>
@@ -62,9 +61,9 @@
                             <div class="flex flex-row items-start lg:flex-col">
                                 @foreach ([$product->photo, $product->photo_2, $product->photo_3, $product->photo_4] as $photo)
                                     @if ($photo)
-                                        <button type="button" class="flex-0 aspect-square mb-3 h-20 overflow-hidden rounded-lg border-2 border-transparent text-center">
-                                            <img src="{{ Storage::url($photo) }}" alt="{{ $product->name }}" class="h-full w-full object-cover">
-                                        </button>
+                                    <button type="button" class="flex-0 aspect-square mb-3 h-20 overflow-hidden rounded-lg border-2 border-transparent text-center">
+                                        <img src="{{ Storage::url($photo) }}" alt="{{ $product->name }}" class="h-full w-full object-cover">
+                                    </button>
                                     @endif
                                 @endforeach
                             </div>
@@ -79,57 +78,41 @@
                         <div class="flex items-center">
                             <!-- Add star ratings here -->
                             <svg class="block h-4 w-4 align-middle text-yellow-500" fill="currentColor" viewBox="0 0 20 20"><path d="..."></path></svg>
-                            <!-- Repeat for additional stars -->
                         </div>
-                        {{-- <p class="ml-2 text-sm font-medium text-gray-500">1,209 likes this product</p> --}}
                     </div>
-                    {{-- <h2 class="mt-8 text-base text-gray-300 sm:text-3xl">Product Description</h2> --}}
-                    <div class="font-bold text-gray-500 ">{{ $product->description }}</div>
-
-                    {{-- <h2 class="mt-8 text-base text-gray-900">Coffee Type</h2>
-                    <div class="mt-3 flex select-none flex-wrap items-center gap-1">
-                        <label>
-                            <input type="radio" name="type" value="Powder" class="peer sr-only" checked />
-                            <p class="peer-checked:bg-black peer-checked:text-white rounded-lg border border-black px-6 py-2 font-bold">Powder</p>
-                        </label>
-                        <label>
-                            <input type="radio" name="type" value="Whole Bean" class="peer sr-only" />
-                            <p class="peer-checked:bg-black peer-checked:text-white rounded-lg border border-black px-6 py-2 font-bold">Whole Bean</p>
-                        </label>
-                        <label>
-                            <input type="radio" name="type" value="Ground" class="peer sr-only" />
-                            <p class="peer-checked:bg-black peer-checked:text-white rounded-lg border border-black px-6 py-2 font-bold">Ground</p>
-                        </label>
-                    </div> --}}
-
-                    {{-- <h2 class="mt-8 text-base text-gray-900">Choose Subscription</h2>
-                    <div class="mt-3 flex select-none flex-wrap items-center gap-1">
-                        <label>
-                            <input type="radio" name="subscription" value="4 Months" class="peer sr-only" />
-                            <p class="peer-checked:bg-black peer-checked:text-white rounded-lg border border-black px-6 py-2 font-bold">4 Months</p>
-                        </label>
-                        <label>
-                            <input type="radio" name="subscription" value="8 Months" class="peer sr-only" checked />
-                            <p class="peer-checked:bg-black peer-checked:text-white rounded-lg border border-black px-6 py-2 font-bold">8 Months</p>
-                        </label>
-                        <label>
-                            <input type="radio" name="subscription" value="12 Months" class="peer sr-only" />
-                            <p class="peer-checked:bg-black peer-checked:text-white rounded-lg border border-black px-6 py-2 font-bold">12 Months</p>
-                        </label>
-                    </div> --}}
-
+                    <div class="font-bold text-gray-500">{{ $product->description }}</div>
                     <div class="mt-10 flex flex-col items-center justify-between space-y-4 border-t border-b py-4 sm:flex-row sm:space-y-0">
                         <div class="flex items-end">
                             <h1 class="text-3xl font-bold text-gray-600">Rp {{ number_format($product->price, 0, ',', '.') }}</h1>
-
                         </div>
-                        <button type="button" class="inline-flex items-center justify-center rounded-md bg-gray-900 px-12 py-3 text-base font-bold text-white transition-all duration-200 ease-in-out hover:bg-gray-800">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="mr-3 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-                            </svg>
-                            Add to cart
-                        </button>
+
+                        <form action="{{ route('cart.add') }}" method="POST" class="flex items-center">
+                            @csrf
+                            <input type="hidden" name="product_id" value="{{ $product->id }}">
+
+                            <div class="flex items-center mr-4">
+                                <label for="quantity" class="mr-2 text-gray-800 dark:text-gray-200">Quantity:</label>
+                                <input
+                                    type="number"
+                                    id="quantity"
+                                    name="quantity"
+                                    min="1"
+                                    max="{{ $product->stock }}"
+                                    value="1"
+                                    class="border rounded-md px-3 py-2 w-16 text-center transition duration-150 ease-in-out focus:outline-none focus:ring focus:ring-gray-300"
+                                    onchange="updateQuantity(this.value, {{ $product->stock }})"
+                                >
+                            </div>
+
+                            <button type="submit" class="flex items-center justify-center rounded-md bg-blue-900 px-6 py-2 text-base font-bold text-white transition-all duration-200 ease-in-out hover:bg-gray-800">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                                </svg>
+                                Tambah ke Keranjang
+                            </button>
+                        </form>
                     </div>
+
 
                     <ul class="mt-8 space-y-2">
                         <li class="flex items-center text-sm font-medium text-gray-600">
@@ -142,33 +125,33 @@
                             <svg class="mr-2 block h-5 w-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
                             </svg>
-                            1,209 likes this product
+                            Stok tersisa: {{ $product->stock }}
                         </li>
                     </ul>
                 </div>
-
-                <!-- Product Description -->
-                {{-- <div class="lg:col-span-3">
-                    <div class="border-b border-gray-300">
-                        <nav class="flex gap-4">
-                            <a href="#" class="border-b-2 border-gray-900 py-4 text-sm font-medium text-gray-900 hover:border-gray-400 hover:text-gray-800"> Description </a>
-                            <a href="#" class="inline-flex items-center border-b-2 border-transparent py-4 text-sm font-medium text-gray-600">
-                                Reviews
-                                <span class="ml-2 block rounded-full bg-gray-500 px-2 py-px text-xs font-bold text-gray-100"> 1,209 </span>
-                            </a>
-                        </nav>
-                    </div>
-
-                    <div class="mt-8">
-                        <h1 class="text-3xl font-bold">Delivered To Your Door</h1>
-                        <p class="mt-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia accusantium nesciunt fuga.</p>
-                        <h1 class="mt-8 text-3xl font-bold">From the Fine Farms of Brazil</h1>
-                        <p class="mt-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio numquam enim facere.</p>
-                        <p class="mt-4">Amet consectetur adipisicing elit. Optio numquam enim facere. Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dolore rerum nostrum eius facere, ad neque.</p>
-                    </div>
-                </div> --}}
             </div>
         </div>
     </section>
 </x-app-layout>
 
+<script>
+const swiper = new Swiper('.swiper-container', {
+    direction: 'horizontal',
+    loop: true,
+    pagination: {
+        el: '.swiper-pagination',
+    },
+    navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+    },
+});
+
+function updateQuantity(value, max) {
+    const quantityInput = document.getElementById('quantity');
+    if (value > max) {
+        quantityInput.value = max;
+        alert('Maksimal jumlah yang bisa dipilih adalah ' + max);
+    }
+}
+</script>
